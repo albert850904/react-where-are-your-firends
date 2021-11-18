@@ -7,7 +7,7 @@ const MainHeader = (props) => {
 };
 
 MainHeader.propTypes = {
-  children: PropTypes.arrayOf().isRequired,
+  children: PropTypes.array.isRequired,
 };
 
 export default MainHeader;

@@ -12,8 +12,8 @@ const PlaceList = (props) => {
       <div className="place-list center">
         <Card>
           <h2>No Places Found</h2>
+          <Link to="/">Share Place</Link>
         </Card>
-        <Link to="/">Share Place</Link>
       </div>
     );
   }
@@ -37,7 +37,7 @@ const PlaceList = (props) => {
 };
 
 PlaceList.propTypes = {
-  items: PropTypes.arrayOf().isRequired,
+  items: PropTypes.array.isRequired,
 };
 
 export default PlaceList;

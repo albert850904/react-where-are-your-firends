@@ -13,7 +13,7 @@ const Card = (props) => {
 Card.propTypes = {
   className: PropTypes.string,
   style: PropTypes.shape({}),
-  children: PropTypes.shape({}),
+  children: PropTypes.array,
 };
 
 export default Card;
