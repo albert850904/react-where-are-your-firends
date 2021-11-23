@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import UserItem from "./UserItem";
-import "./UsersList.css";
-import Card from "../../shared/components/UIElements/Card";
+import React from 'react';
+import PropTypes from 'prop-types';
+import UserItem from './UserItem';
+import './UsersList.css';
+import Card from '../../shared/components/UIElements/Card';
 
 const UsersList = (props) => {
   if (!props.items?.length) {
@@ -24,7 +24,7 @@ const UsersList = (props) => {
             id={user.id}
             image={user.image}
             name={user.name}
-            placeCount={user.places}
+            placeCount={user.places?.length}
           />
         );
       })}

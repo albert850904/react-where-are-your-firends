@@ -1,28 +1,31 @@
-import React, { useCallback, useState } from "react";
-import "./App.css";
+import React, { useCallback, useState } from 'react';
+import './App.css';
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
   Switch,
-} from "react-router-dom";
-import Users from "./user/containers/Users";
-import NewPlace from "./places/containers/NewPlace";
-import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import UserPlaces from "./places/containers/UserPlaces";
-import UpdatePlace from "./places/containers/UpdatePlace";
-import Auth from "./user/containers/Auth";
-import { AuthContext } from "./shared/context/auth-context";
+} from 'react-router-dom';
+import Users from './user/containers/Users';
+import NewPlace from './places/containers/NewPlace';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
+import UserPlaces from './places/containers/UserPlaces';
+import UpdatePlace from './places/containers/UpdatePlace';
+import Auth from './user/containers/Auth';
+import { AuthContext } from './shared/context/auth-context';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
 
-  const login = useCallback(() => {
+  const login = useCallback((uil) => {
     setIsLoggedIn(true);
+    setUserId(uil);
   }, []);
 
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setUserId(null);
   }, []);
 
   let routes;
@@ -50,7 +53,7 @@ const App = () => {
 
   /* new 要優先於 :placeId 因為 /places/new 其實也符合 :placeId 格式 */
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
       <Router>
         <MainNavigation />
         <main>{routes}</main>

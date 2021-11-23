@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
-import { CSSTransition } from "react-transition-group";
-import Backdrop from "../Navigation/Backdrop";
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import { CSSTransition } from 'react-transition-group';
+import Backdrop from '../Navigation/Backdrop';
 
-import "./Modal.css";
+import './Modal.css';
 
-const ModelOverlay = (props) => {
+const ModalOverlay = (props) => {
   const modalContent = (
     <div className={`modal ${props.className}`} stype={props.style}>
       <header className={`modal__header ${props.headerClass}`}>
@@ -29,7 +29,7 @@ const ModelOverlay = (props) => {
 
   return ReactDOM.createPortal(
     modalContent,
-    document.getElementById("modal-portal")
+    document.getElementById('modal-portal')
   );
 };
 
@@ -44,7 +44,7 @@ const Modal = (props) => {
         timeout={200}
         classNames="modal"
       >
-        <ModelOverlay {...props} />
+        <ModalOverlay {...props} />
       </CSSTransition>
     </>
   );

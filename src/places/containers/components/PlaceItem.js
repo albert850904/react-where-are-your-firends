@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
-import Card from "../../../shared/components/UIElements/Card";
+import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import Card from '../../../shared/components/UIElements/Card';
 
-import Button from "../../../shared/components/UIElements/Button";
-import Modal from "../../../shared/components/UIElements/Model";
-import Map from "../../../shared/components/UIElements/Map";
+import Button from '../../../shared/components/UIElements/Button';
+import Modal from '../../../shared/components/UIElements/Modal';
+import Map from '../../../shared/components/UIElements/Map';
 
-import "./PlaceItem.css";
-import { AuthContext } from "../../../shared/context/auth-context";
+import './PlaceItem.css';
+import { AuthContext } from '../../../shared/context/auth-context';
 
 const PlaceItem = (props) => {
   const authCtx = useContext(AuthContext);
@@ -24,7 +24,7 @@ const PlaceItem = (props) => {
 
   const confirmDeleteHandler = () => {
     toggleDeleteWarningHandler();
-    console.log("DELETING.....");
+    console.log('DELETING.....');
   };
 
   return (

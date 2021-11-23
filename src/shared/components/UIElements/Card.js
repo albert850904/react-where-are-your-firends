@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./Card.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './Card.css';
 
 const Card = (props) => {
   return (
@@ -13,7 +13,7 @@ const Card = (props) => {
 Card.propTypes = {
   className: PropTypes.string,
   style: PropTypes.shape({}),
-  children: PropTypes.array,
+  children: PropTypes.shape({}),
 };
 
 export default Card;
