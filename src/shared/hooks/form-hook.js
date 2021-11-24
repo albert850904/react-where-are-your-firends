@@ -1,8 +1,8 @@
-import { useCallback, useReducer } from "react";
+import { useCallback, useReducer } from 'react';
 
 const formReducer = (state, action) => {
   switch (action.type) {
-    case "INPUT_CHANGE": {
+    case 'INPUT_CHANGE': {
       let formIsValid = true;
       for (const inputId in state.inputs) {
         if (!state.inputs[inputId]) continue;
@@ -21,7 +21,7 @@ const formReducer = (state, action) => {
         isValid: formIsValid,
       };
     }
-    case "SET_DATA": {
+    case 'SET_DATA': {
       return {
         inputs: action.inputs,
         isValid: action.isValid,
@@ -50,11 +50,11 @@ export const useForm = (initInputs, initFormValidity) => {
   // 此function 被重新建構, 又會觸發component 的useEffect >> infinite loop >> 用useCallback
   // useCallback 只會被觸發一次
   const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({ type: "INPUT_CHANGE", value, isValid, inputId: id });
+    dispatch({ type: 'INPUT_CHANGE', value, isValid, inputId: id });
   }, []);
 
   const setFormData = useCallback((inputData, formValidity) => {
-    dispatch({ type: "SET_DATA", inputs: inputData, isValid: formValidity });
+    dispatch({ type: 'SET_DATA', inputs: inputData, isValid: formValidity });
   }, []);
 
   return [formState, inputHandler, setFormData];

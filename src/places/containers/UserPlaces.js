@@ -1,40 +1,48 @@
-import React from "react";
-import { useParams } from "react-router";
-import PlaceList from "./components/PlaceList";
-
-export const DUMMY_PLACES = [
-  {
-    id: "p1",
-    title: "Empire State Building",
-    desc: "Good skyscraper",
-    imageUrl:
-      "https://bsmedia.business-standard.com/_media/bs/img/article/2021-09/20/full/1632080404-7898.jpg",
-    address: "NY 100001",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878584,
-    },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "EEE State Building",
-    desc: "Good skyscraper",
-    imageUrl:
-      "https://bsmedia.business-standard.com/_media/bs/img/article/2021-09/20/full/1632080404-7898.jpg",
-    address: "NY 100001",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878584,
-    },
-    creator: "u2",
-  },
-];
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import PlaceList from '../components/PlaceList';
 
 const UserPlaces = () => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const userId = useParams().uid;
-  const loadedPlaces = DUMMY_PLACES.filter((place) => place.creator === userId);
-  return <PlaceList items={loadedPlaces} />;
+  const [loadedPlaces, setLoadedPlaces] = useState();
+
+  const placeDeleteHandler = (deleteId) => {
+    setLoadedPlaces((prevPlaces) =>
+      prevPlaces.filter((place) => place.id !== deleteId)
+    );
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await sendRequest(
+          `http://192.168.17.3:5000/api/places/user/${userId}`
+        );
+
+        setLoadedPlaces(res.places);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [userId]);
+
+  return (
+    <>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner asOverlay />
+        </div>
+      )}
+      {!isLoading && loadedPlaces && (
+        <PlaceList items={loadedPlaces} onDeletePlace={placeDeleteHandler} />
+      )}
+    </>
+  );
 };
 
 export default UserPlaces;

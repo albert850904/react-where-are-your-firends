@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
 import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../utils/validators';
 import Button from '../../shared/components/UIElements/Button';
@@ -9,7 +10,7 @@ import './NewPlace.css';
 import { AuthContext } from '../../shared/context/auth-context';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-import { useHistory } from 'react-router';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 const NewPlace = () => {
   const authCtx = useContext(AuthContext);
@@ -29,30 +30,34 @@ const NewPlace = () => {
         value: '',
         isValid: false,
       },
+      image: {
+        value: '',
+        isValid: '',
+      },
     },
     false
   );
 
   const placeSubmitHandler = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('title', formState.inputs.title.value);
+    formData.append('address', formState.inputs.address.value);
+    formData.append('desc', formState.inputs.description.value);
+    formData.append('image', formState.inputs.image.value);
+    formData.append('creator', authCtx.userId);
     try {
       await sendRequest(
         'http://192.168.17.3:5000/api/places',
         'POST',
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          address: formState.inputs.address.value,
-          desc: formState.inputs.description.value,
-          creator: authCtx.userId,
-        }),
-        {
-          'Content-Type': 'application/json',
-        }
+        formData
       );
 
       // redirect user
       history.push('/ ');
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -84,6 +89,12 @@ const NewPlace = () => {
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid address"
           onChange={inputHandler}
+        />
+        <ImageUpload
+          id="image"
+          onInput={inputHandler}
+          center
+          errorText="Please choose an image"
         />
         <Button type="submit" disabled={!formState.isValid}>
           Add Place

@@ -15,6 +15,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 
 import './Auth.css';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 const Auth = () => {
   const authCtx = useContext(AuthContext);
@@ -50,25 +51,27 @@ const Auth = () => {
             'Content-Type': 'application/json',
           }
         );
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
 
       authCtx.login(res.user.id);
     } else {
       try {
+        const formData = new FormData();
+        formData.append('email', formState.inputs.email.value);
+        formData.append('name', formState.inputs.name.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('image', formState.inputs.image.value);
         res = await sendRequest(
           'http://192.168.17.3:5000/api/users/signup',
           'POST',
-          JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-          {
-            'Content-Type': 'application/json',
-          }
+          formData // 會自動append head
         );
         authCtx.login(res.user.id);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -76,12 +79,19 @@ const Auth = () => {
     // 從註冊變成登入
     if (!isLoginMode) {
       setFormData(
-        { ...formState.inputs, name: undefined },
+        { ...formState.inputs, name: undefined, image: undefined },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
       setFormData(
-        { ...formState.inputs, name: { value: '', isValid: true } },
+        {
+          ...formState.inputs,
+          name: {
+            value: '',
+            isValid: true,
+          },
+          image: { value: null, isValid: false },
+        },
         false
       );
     }
@@ -122,9 +132,17 @@ const Auth = () => {
             label="Password"
             element="input"
             onChange={inputHandler}
-            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
-            errorText="Password is Required at least 5 characters"
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
+            errorText="Password is Required at least 6 characters"
           />
+          {!isLoginMode && (
+            <ImageUpload
+              id="image"
+              center
+              onInput={inputHandler}
+              errorText="Please choose an image"
+            />
+          )}
           <Button type="submit" disabled={!formState.isValid}>
             {isLoginMode ? 'Login' : 'Signup'}
           </Button>

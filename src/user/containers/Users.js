@@ -16,7 +16,9 @@ const Users = () => {
         );
 
         setLoadedUser(response.users);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     })();
   }, [sendRequest]);
 

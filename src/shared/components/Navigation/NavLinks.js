@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
-import "./NavLinks.css";
+import React, { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../../context/auth-context';
+import './NavLinks.css';
 
 const NavLinks = () => {
   // 訂閱context改變
-  const auth = useContext(AuthContext);
+  const authCtx = useContext(AuthContext);
 
   return (
     <ul className="nav-links">
@@ -14,24 +14,24 @@ const NavLinks = () => {
           All Users
         </NavLink>
       </li>
-      {auth.isLoggedIn && (
+      {authCtx.isLoggedIn && (
         <li>
-          <NavLink to="/u1/places">My Places</NavLink>
+          <NavLink to={`/${authCtx.userId}/places`}>My Places</NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {authCtx.isLoggedIn && (
         <li>
           <NavLink to="/places/new">Add Place</NavLink>
         </li>
       )}
-      {!auth.isLoggedIn && (
+      {!authCtx.isLoggedIn && (
         <li>
           <NavLink to="/auth">Authenticate</NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {authCtx.isLoggedIn && (
         <li>
-          <button onClick={auth.logout}>LOTOUT</button>
+          <button onClick={authCtx.logout}>LOTOUT</button>
         </li>
       )}
     </ul>

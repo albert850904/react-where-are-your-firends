@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Card from "../../../shared/components/UIElements/Card";
-import PlaceItem from "./PlaceItem";
-import Button from "../../../shared/components/UIElements/Button";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Card from '../../shared/components/UIElements/Card';
+import PlaceItem from './PlaceItem';
+import Button from '../../shared/components/UIElements/Button';
 
-import "./PlaceList.css";
+import './PlaceList.css';
 
 const PlaceList = (props) => {
   if (!props.items?.length) {
@@ -24,12 +24,13 @@ const PlaceList = (props) => {
         <PlaceItem
           key={place.id}
           id={place.id}
-          image={place.imageUrl}
+          image={`http://192.168.17.3:5000/${place.image}`}
           title={place.title}
           desc={place.desc}
           address={place.address}
           createId={place.creator}
           coordinates={place.location}
+          onDelete={props.onDeletePlace}
         />
       ))}
     </ul>
@@ -38,6 +39,7 @@ const PlaceList = (props) => {
 
 PlaceList.propTypes = {
   items: PropTypes.array.isRequired,
+  onDeletePlace: PropTypes.func.isRequired,
 };
 
 export default PlaceList;

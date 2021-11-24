@@ -1,15 +1,19 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import Card from '../../../shared/components/UIElements/Card';
+import Card from '../../shared/components/UIElements/Card';
 
-import Button from '../../../shared/components/UIElements/Button';
-import Modal from '../../../shared/components/UIElements/Modal';
-import Map from '../../../shared/components/UIElements/Map';
+import Button from '../../shared/components/UIElements/Button';
+import Modal from '../../shared/components/UIElements/Modal';
+import Map from '../../shared/components/UIElements/Map';
 
 import './PlaceItem.css';
-import { AuthContext } from '../../../shared/context/auth-context';
+import { AuthContext } from '../../shared/context/auth-context';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 const PlaceItem = (props) => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const authCtx = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -22,13 +26,23 @@ const PlaceItem = (props) => {
     setShowConfirmModal((prevState) => !prevState);
   };
 
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     toggleDeleteWarningHandler();
-    console.log('DELETING.....');
+    try {
+      await sendRequest(
+        `http://192.168.17.3:5000/api/places/${props.id}`,
+        'DELETE'
+      );
+      props.onDelete(props.id);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner asOverlay />}
       <Modal
         show={showMap}
         onCancel={toggleMapHandler}
@@ -76,10 +90,10 @@ const PlaceItem = (props) => {
             <Button inverse onClick={toggleMapHandler}>
               View on Map
             </Button>
-            {authCtx.isLoggedIn && (
+            {authCtx.userId === props.createId && (
               <Button to={`/places/${props.id}`}>Edit Place</Button>
             )}
-            {authCtx.isLoggedIn && (
+            {authCtx.userId === props.createId && (
               <Button danger onClick={toggleDeleteWarningHandler}>
                 Delete Place
               </Button>
@@ -96,7 +110,9 @@ PlaceItem.propTypes = {
   image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
+  createId: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
   coordinates: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
