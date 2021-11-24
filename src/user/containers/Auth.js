@@ -53,9 +53,10 @@ const Auth = () => {
         );
       } catch (error) {
         console.log(error);
+        return;
       }
 
-      authCtx.login(res.user.id);
+      authCtx.login(res.userId, res.token);
     } else {
       try {
         const formData = new FormData();
@@ -68,9 +69,10 @@ const Auth = () => {
           'POST',
           formData // 會自動append head
         );
-        authCtx.login(res.user.id);
+        authCtx.login(res.userId, res.token);
       } catch (error) {
         console.log(error);
+        return;
       }
     }
   };

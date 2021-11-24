@@ -15,22 +15,27 @@ import Auth from './user/containers/Auth';
 import { AuthContext } from './shared/context/auth-context';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState();
   const [userId, setUserId] = useState(null);
 
-  const login = useCallback((uil) => {
-    setIsLoggedIn(true);
-    setUserId(uil);
+  const login = useCallback((uid, token) => {
+    setToken(token);
+    setUserId(uid);
+    window.localStorage.setItem(
+      'userData',
+      JSON.stringify({ token, userId: uid })
+    );
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
+    window.localStorage.removeItem('userData');
   }, []);
 
   let routes;
 
-  if (isLoggedIn) {
+  if (token) {
     routes = (
       <Switch>
         <Route path="/" component={Users} exact />
@@ -53,7 +58,9 @@ const App = () => {
 
   /* new 要優先於 :placeId 因為 /places/new 其實也符合 :placeId 格式 */
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn: !!token, token, userId, login, logout }}
+    >
       <Router>
         <MainNavigation />
         <main>{routes}</main>

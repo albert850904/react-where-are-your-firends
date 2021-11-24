@@ -50,7 +50,8 @@ const NewPlace = () => {
       await sendRequest(
         'http://192.168.17.3:5000/api/places',
         'POST',
-        formData
+        formData,
+        { Authorization: `Bearer ${authCtx.token}` }
       );
 
       // redirect user
