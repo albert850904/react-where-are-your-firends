@@ -5,6 +5,7 @@ import PlaceItem from './PlaceItem';
 import Button from '../../shared/components/UIElements/Button';
 
 import './PlaceList.css';
+import { CONFIG } from '../../constants/configuration';
 
 const PlaceList = (props) => {
   if (!props.items?.length) {
@@ -24,7 +25,7 @@ const PlaceList = (props) => {
         <PlaceItem
           key={place.id}
           id={place.id}
-          image={`http://192.168.17.130:5000/${place.image}`}
+          image={`${CONFIG.ASSET_URL}/${place.image}`}
           title={place.title}
           desc={place.desc}
           address={place.address}

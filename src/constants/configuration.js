@@ -1,3 +1,4 @@
 export const CONFIG = {
-  API_URL: 'http://192.168.17.130:5000/api',
+  API_URL: process.env.REACT_APP_BACKEND_URL,
+  ASSET_URL: process.env.REACT_APP_ASSET_URL,
 };

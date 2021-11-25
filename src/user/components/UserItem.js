@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Avatar from '../../shared/components/UIElements/Avatar';
 import Card from '../../shared/components/UIElements/Card';
 import './UserItem.css';
+import { CONFIG } from '../../constants/configuration';
 
 const UserItem = (props) => {
   return (
@@ -12,7 +13,7 @@ const UserItem = (props) => {
         <Link to={`/${props.id}/places`}>
           <div className="user-item__image">
             <Avatar
-              image={`http://192.168.17.130:5000/${props.image}`}
+              image={`${CONFIG.ASSET_URL}/${props.image}`}
               alt={props.name}
             />
           </div>
