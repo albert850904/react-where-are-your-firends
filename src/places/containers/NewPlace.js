@@ -11,6 +11,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ImageUpload from '../../shared/components/FormElements/ImageUpload';
+import { CONFIG } from '../../constants/configuration';
 
 const NewPlace = () => {
   const authCtx = useContext(AuthContext);
@@ -45,14 +46,10 @@ const NewPlace = () => {
     formData.append('address', formState.inputs.address.value);
     formData.append('desc', formState.inputs.description.value);
     formData.append('image', formState.inputs.image.value);
-    formData.append('creator', authCtx.userId);
     try {
-      await sendRequest(
-        'http://192.168.17.3:5000/api/places',
-        'POST',
-        formData,
-        { Authorization: `Bearer ${authCtx.token}` }
-      );
+      await sendRequest(`${CONFIG.API_URL}/places`, 'POST', formData, {
+        Authorization: `Bearer ${authCtx.token}`,
+      });
 
       // redirect user
       history.push('/ ');

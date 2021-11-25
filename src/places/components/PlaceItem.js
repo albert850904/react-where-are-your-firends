@@ -11,6 +11,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import { CONFIG } from '../../constants/configuration';
 
 const PlaceItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -30,10 +31,12 @@ const PlaceItem = (props) => {
     toggleDeleteWarningHandler();
     try {
       await sendRequest(
-        `http://192.168.17.3:5000/api/places/${props.id}`,
+        `${CONFIG.API_URL}/places/${props.id}`,
         'DELETE',
         null,
-        { Authorization: `Bearer ${authCtx.token}` }
+        {
+          Authorization: `Bearer ${authCtx.token}`,
+        }
       );
       props.onDelete(props.id);
     } catch (error) {

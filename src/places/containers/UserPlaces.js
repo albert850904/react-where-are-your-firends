@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { CONFIG } from '../../constants/configuration';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { useHttpClient } from '../../shared/hooks/http-hook';
@@ -20,7 +21,7 @@ const UserPlaces = () => {
     (async () => {
       try {
         const res = await sendRequest(
-          `http://192.168.17.3:5000/api/places/user/${userId}`
+          `${CONFIG.API_URL}/places/user/${userId}`
         );
 
         setLoadedPlaces(res.places);

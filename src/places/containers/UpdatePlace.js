@@ -11,6 +11,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { AuthContext } from '../../shared/context/auth-context';
+import { CONFIG } from '../../constants/configuration';
 
 const UpdatePlace = () => {
   const authCtx = useContext(AuthContext);
@@ -37,7 +38,7 @@ const UpdatePlace = () => {
     event.preventDefault();
     try {
       await sendRequest(
-        `http://192.168.17.3:5000/api/places/${placeId}`,
+        `${CONFIG.API_URL}/places/${placeId}`,
         'PATCH',
         JSON.stringify({
           title: formState.inputs.title.value,
@@ -57,9 +58,7 @@ const UpdatePlace = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await sendRequest(
-          `http://192.168.17.3:5000/api/places/${placeId}`
-        );
+        const res = await sendRequest(`${CONFIG.API_URL}/places/${placeId}`);
         setPlace(res.place);
         setFormData(
           {

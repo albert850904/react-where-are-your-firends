@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { CONFIG } from '../../constants/configuration';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { useHttpClient } from '../../shared/hooks/http-hook';
@@ -11,9 +12,7 @@ const Users = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await sendRequest(
-          'http://192.168.17.3:5000/api/users'
-        );
+        const response = await sendRequest(`${CONFIG.API_URL}/users`);
 
         setLoadedUser(response.users);
       } catch (error) {

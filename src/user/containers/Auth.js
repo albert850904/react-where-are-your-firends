@@ -16,6 +16,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 
 import './Auth.css';
 import ImageUpload from '../../shared/components/FormElements/ImageUpload';
+import { CONFIG } from '../../constants/configuration';
 
 const Auth = () => {
   const authCtx = useContext(AuthContext);
@@ -41,7 +42,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         res = await sendRequest(
-          'http://192.168.17.3:5000/api/users/login',
+          `${CONFIG.API_URL}/users/login`,
           'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -65,7 +66,7 @@ const Auth = () => {
         formData.append('password', formState.inputs.password.value);
         formData.append('image', formState.inputs.image.value);
         res = await sendRequest(
-          'http://192.168.17.3:5000/api/users/signup',
+          `${CONFIG.API_URL}/users/signup`,
           'POST',
           formData // 會自動append head
         );

@@ -24,7 +24,7 @@ const PlaceList = (props) => {
         <PlaceItem
           key={place.id}
           id={place.id}
-          image={`http://192.168.17.3:5000/${place.image}`}
+          image={`http://192.168.17.130:5000/${place.image}`}
           title={place.title}
           desc={place.desc}
           address={place.address}
