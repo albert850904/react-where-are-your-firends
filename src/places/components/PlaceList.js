@@ -25,7 +25,7 @@ const PlaceList = (props) => {
         <PlaceItem
           key={place.id}
           id={place.id}
-          image={`${CONFIG.ASSET_URL}/${place.image}`}
+          image={`${CONFIG.API_URL}/places/image/${place.image}`}
           title={place.title}
           desc={place.desc}
           address={place.address}
