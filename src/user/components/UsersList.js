@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import UserItem from './UserItem';
 import './UsersList.css';
 import Card from '../../shared/components/UIElements/Card';
+import { CONFIG } from '../../constants/configuration';
 
 const UsersList = (props) => {
   if (!props.items?.length) {
@@ -22,7 +23,7 @@ const UsersList = (props) => {
           <UserItem
             key={user.id}
             id={user.id}
-            image={user.image}
+            image={`${CONFIG.ASSET_URL}/image/${user.image}`}
             name={user.name}
             placeCount={user.places?.length}
           />
