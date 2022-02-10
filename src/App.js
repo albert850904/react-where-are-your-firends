@@ -50,7 +50,7 @@ const App = () => {
     <AuthContext.Provider
       value={{ isLoggedIn: !!token, token, userId, login, logout }}
     >
-      <Router>
+      <Router basename="location">
         <MainNavigation />
         <main>
           <Suspense
